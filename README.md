@@ -1,0 +1,1 @@
+sum(flask_http_request_duration_seconds_count)  by (path)
