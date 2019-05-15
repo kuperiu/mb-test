@@ -2,7 +2,7 @@
 import sys
 import logging
 import requests
-from flask import Flask, send_file, Response, request
+from flask import Flask, send_file, Response, request, jsonify
 from prometheus_flask_exporter import PrometheusMetrics
 
 app = Flask(__name__)
@@ -24,15 +24,18 @@ def homersimpson():
 @app.route('/covilha')
 def covilha():
     try:
-         url = 'http://worldtimeapi.org/api/timezone/Europe/Lisbon'
-         res = requests.get(url, timeout=10.0)
+        url = 'http://worldtimeapi.org/api/timezone/Europe/Lisbon'
+        res = requests.get(url, timeout=10.0)
     except:
         res = None
     if res and res.status_code == 200:
         dt = res.json()
         return dt['datetime']
     else:
-        return "nope"
+        message = "Couldn't get time from worldtimeapi"
+        resp = jsonify(message)
+        resp.status_code = 500
+        return resp
 
 
 @app.route('/health')
@@ -56,7 +59,7 @@ if __name__ == '__main__':
         sys.exit(-1)
 
     p = int(sys.argv[1])
-    # sys.stderr = Writer('stderr.log')
-    # sys.stdout = Writer('stdout.log')
+    sys.stderr = Writer('stderr.log')
+    sys.stdout = Writer('stdout.log')
     print("start at port %s" % (p))
     app.run(host='0.0.0.0', port=p, threaded=True)

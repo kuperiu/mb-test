@@ -1,6 +1,5 @@
 variable "project_name" {}
 
-
 terraform {
   required_version = "= 0.11.10"
 }
@@ -8,5 +7,5 @@ terraform {
 provider "google" {
   region  = "europe-west1"
   version = "2.5.1"
-  project  = "${var.project_name}"
+  project = "${var.project_name}"
 }
