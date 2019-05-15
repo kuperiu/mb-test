@@ -1,5 +1,3 @@
-sum(flask_http_request_duration_seconds_count) by (path)
-
 ## About
 mb-test deploy a k8s cluster in gcp and after deploy a flask app and prometheus on it
 ## Requirements
